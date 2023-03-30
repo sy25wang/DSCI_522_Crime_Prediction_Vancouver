@@ -23,13 +23,13 @@ the prediction to adjust related policies.
 We are going to build a classification prediction model to predict the
 types of crimes that happens in Vancouver, based on the location and the
 time of the day. The data set that is used in the project is originated
-from The Vancouver Police Department (VPD) (The Vancouver Police
-Department 2021), with the data set called `GEODASH OPEN DATA`. The data
-can be found [here](https://geodash.vpd.ca/opendata/). The data set
-represents the types of crime reported in different areas of Vancouver
-at a particular time from 2003 to 2021. Since the data is being updated
-by the VPD every week, we will cut-off the data up to 2020 December to
-ensure our analysis and model are reproducible.
+from The Vancouver Police Department (VPD) \[@Data\], with the data set
+called `GEODASH OPEN DATA`. The data can be found
+[here](https://geodash.vpd.ca/opendata/). The data set represents the
+types of crime reported in different areas of Vancouver at a particular
+time from 2003 to 2021. Since the data is being updated by the VPD every
+week, we will cut-off the data up to 2020 December to ensure our
+analysis and model are reproducible.
 
 The prediction model will make use of date features (`YEAR`, `MONTH`,
 `DAY`, `HOUR`, `MINUTE`) and location (`HUNDRED_BLOCK`, `NEIGHBOURHOOD`,
@@ -52,7 +52,7 @@ summarised the number of crimes committed by locations throughout the
 years in a table. We also identified the correlation chart of the data
 features with the crime types. Detailed EDA report was generated that
 includes other EDA results. It can be found
-[here](src/crime_vancouver_eda.md).
+[here](src/report-eda/crime_vancouver_eda.md).
 
 After EDA, we started to adopt the methodology in supervised machine
 learning for the prediction. Firstly we created a column transformation
@@ -72,7 +72,7 @@ The following flow chart illustrates the overall steps:
 
 Figure 1. Flow chart of the analysis process
 
-<img src="src/flow_chart.png" width="80%" height="80%">
+<img src="src/flow-chart/flow_chart.png" width="80%" height="80%"/>
 
 ## Report
 
@@ -88,56 +88,29 @@ Then perform either of the instructions below:
 
 ### Docker
 
-**Note:** As there is known issues in compatibility of Mac M1 running
-dockers, two separate instructions are given.
-
-**All users except Mac M1**:
+**Note for Mac M1 users:** There are known compatibility issues running
+dockers on Mac M1. User can run with the usual command by increasing
+resources in the Docker Desktop. However it severely impacts the
+machine’s performance. To run, add an argument `--platform linux/amd64`
+for the docker run commands.
 
 <u>**Run analysis and render report**</u>
 
 ``` bash
-docker run -–rm -it -v <your project directory>:/home/jovyan/work crime_predictor make all
+docker run --rm -it -v $(PWD):/home/jovyan/work hktomy/crime_predictor:latest make all
 ```
 
 <u>**Clean all files**</u>
 
 ``` bash
-docker run -–rm -it -v <your project directory>:/home/jovyan/work crime_predictor make clean
+docker run --rm -it -v $(PWD):/home/jovyan/work hktomy/crime_predictor:latest make clean
 ```
 
 <u>**Run jupyter lab**</u>
 
 ``` bash
-docker run -–rm -p 8888:8888 -v <your project directory>:/home/jovyan/work crime_predictor
+docker run --rm -p 8888:8888 -v $(PWD):/home/jovyan/work hktomy/crime_predictor:latest
 ```
-
-**Mac M1**:
-
-<u>**Conduct EDA analysis**</u>
-
-``` bash
-docker run -–rm -it –platform linux/amd64 -v <your project directory>:/home/jovyan/work crime_predictor make analysis
-```
-
-<u>**To render report**</u>
-
-``` bash
-docker run -–rm -it -v <your project directory>:/home/crime_predictor crime_predictor_renderer make report
-```
-
-<u>**Clean all files**</u>
-
-``` bash
-docker run -–rm -it –platform linux/amd64 -v <your project directory>:/home/jovyan/work crime_predictor make clean
-```
-
-<u>**Run jupyter lab**</u>
-
-``` bash
-docker run -–rm -p 8888:8888 –platform linux/amd64 -v <your project directory>:/home/jovyan/work crime_predictor
-```
-
-<br> </br>
 
 ### Conda environment
 
@@ -194,6 +167,7 @@ In case of replicating the analysis without using `conda`, the following
 are the dependencies of the libraries:
 
 -   Python 3.9 and Python packages:
+
     -   docopt=0.6.2
     -   ipykernal
     -   ipython=7.29.0
@@ -203,21 +177,26 @@ are the dependencies of the libraries:
     -   request>=2.24.0
     -   scikit-learn>=1.0
     -   pandas>=1.3.\*
-    -   graphviz
-    -   python-graphviz
     -   pip
     -   rpy2
     -   dataframe-image
+
 -   R version 4.1.1 and R packages:
+
     -   knitr
     -   tidyverse
+
 -   Other packages:
+
     -   pandoc
 
 ### Dependecy Diagram of Makefile
 
--   A dependency diagram of the Makefile can be found
-    [here](Makefile.png).
+-   A dependency diagram of the Makefile is attached here:
+
+![](src/figure-makefile/Makefile.png)<!-- -->
+
+You can also find the link [here](src/figure-makefile/Makefile.png).
 
 ### Mac M1 specific considerations
 
@@ -232,14 +211,3 @@ Refer to [here](data/raw/legal_disclaimer.txt) for the legal disclaimer
 of using the data set.
 
 ## References
-
-<div id="refs" class="references csl-bib-body hanging-indent">
-
-<div id="ref-Data" class="csl-entry">
-
-The Vancouver Police Department. 2021. *Vancouver Department Open Data*.
-<https://geodash.vpd.ca/opendata/>.
-
-</div>
-
-</div>

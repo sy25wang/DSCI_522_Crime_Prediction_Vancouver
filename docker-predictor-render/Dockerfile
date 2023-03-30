@@ -9,13 +9,13 @@
 #    docker build -t crime_predictor_renderer .
 
 # The docker file is build based on the base image from continuumio/miniconda3 
-FROM continuumio/miniconda3 
+FROM continuumio/miniconda3:4.10.3
 
 # set the working directory of the docker environment
 WORKDIR /home/crime_predictor
 
 # essential components for docker environment
-RUN apt-get update --yes && \
+RUN apt-get update --yes && \ 
     apt-get install --yes --no-install-recommends \
     fonts-dejavu \
     make
@@ -27,7 +27,7 @@ RUN conda config --add channels conda-forge
 RUN conda install mamba -n base -c conda-forge -y
 
 # mamba installation for python packages
-RUN mamba install --quiet --yes \
+RUN mamba install --quiet --yes \ 
     'docopt=0.6.*' \
     'r-base=4.1.*'  \
     'r-rmarkdown' && \
